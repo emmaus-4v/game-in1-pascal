@@ -1,30 +1,28 @@
 Deze game is gebaseerd op het template voor 4HV van het Emmauscollege Rotterdam
 
-## Mijn spel: *naam van het spel*
+## Mijn spel: Minigolf
 Gemaakt door:
-- *naam van leerling 1*
-- *naam van leerling 2*
+- *Pascal*
 
 ## Mijn planning
 
-Basis: uitleg, spelen, afgaan en punten
+Basis: uitleg, spelen en punten
 - [x] maak index.html, style.css en script.js met canvas
-- [ ] teken speler
-- [ ] beweeg speler
-- [ ] ... *(vul zelf aan)*
+- [x] teken bal
+- [x] click and drag lijn
+- [ ] beweeg bal
+- [ ] bal in gat
+- [ ] hoogteverschil
 - [ ] punten op scherm zetten
-- [ ] punten kunnen scoren
+- [ ] thuismenu
 - [ ] uitlegscherm
+- [ ] levels maken
 
 Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
-- [ ] *later uitwerken*
-- [ ] *later uitwerken*
-- [ ] *later uitwerken*
+- [ ] overdekkingen
+- [ ] verschillende ballen ontgrendelen
+- [ ] oneindige modus
 
-Uitbreiding: *bedenk iets, bijvoorbeeld bewegende achtergrond*
-- [ ] *later uitwerken*
-- [ ] *later uitwerken*
-- [ ] *later uitwerken*
 
 ## Credits
 - Game template van het Emmauscollege Rotterdam https://github.com/emmauscollege/4HV-game-template
