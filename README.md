@@ -9,7 +9,8 @@ Gemaakt door:
 Basis: uitleg, spelen en punten
 - [x] maak index.html, style.css en script.js met canvas
 - [x] teken bal
-- [x] click and drag lijn
+- [x] lijn
+- [ ] click and drag
 - [ ] beweeg bal
 - [ ] bal in gat
 - [ ] hoogteverschil
