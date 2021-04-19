@@ -17,6 +17,10 @@ var diffX = 0;
 var diffY = 0;
 var LijnTekenen = 0;
 
+var speedX = 0;
+var speedY = 0;
+var friction = 0.9;
+
 var score = 0; 
 
 //Functies
@@ -38,9 +42,17 @@ var muisInputLijn = function() {
     if(mouseIsPressed && diffX < 10 && diffY < 10) {
         LijnTekenen = 1;
     }
-    else if(mouseReleased) {
+    else if(!mouseIsPressed && LijnTekenen === 1) {
         LijnTekenen = 0;
+        speedX = diffX;
+        speedY = diffY;
     }
+}
+var beweegSpeler = function() {
+    spelerX = (spelerX + (speedX / 4));
+    spelerY = (spelerY + (speedY / 4));
+    speedX = speedX * friction;
+    speedY = speedY * friction;
 }
 
 //Puntje berekenen
@@ -48,7 +60,7 @@ var berekenLijnX = function() {
     if(mouseX < spelerX) {
         puntX = (spelerX - mouseX) + spelerX;
     }
-    else if(mouseX > spelerX){
+    else {
         puntX = spelerX - (mouseX - spelerX);
     }
 }
@@ -56,26 +68,16 @@ var berekenLijnY = function() {
     if(mouseY < spelerY) {
         puntY = (spelerY - mouseY) + spelerY;
     }
-    else if(mouseY > spelerY){
+    else {
         puntY = spelerY - (mouseY - spelerY);
     }
 }
 
 var berekenDiffX = function() {
-    if(mouseX < spelerX) {
         diffX = (spelerX - mouseX);
-    }
-    else if(mouseX > spelerX){
-        diffX = (mouseX - spelerX);
-    }
 }
 var berekenDiffY = function() {
-    if(mouseY < spelerY) {
         diffY = (spelerY - mouseY);
-    }
-    else if(mouseY > spelerY){
-        diffY = (mouseY - spelerY);
-    }
 }
 
 //Achtergrond
@@ -98,11 +100,14 @@ function draw() {
     background("green");
 
     tekenPunt(puntX, puntY);
-    if(LijnTekenen = 1) {
+    if(LijnTekenen === 1) {
         strokeWeight(25);
         tekenLijn(spelerX, spelerY, puntX, puntY);
         strokeWeight(1);
     }
+    console.log(LijnTekenen);
+
+    beweegSpeler();
     tekenSpeler(spelerX, spelerY);
 
     break;

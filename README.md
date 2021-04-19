@@ -13,7 +13,7 @@ Basis: uitleg, spelen en punten
 - [ ] click and drag
 - [ ] beweeg bal
 - [ ] bal in gat
-- [ ] hoogteverschil
+- [ ] obstakels toevoegen
 - [ ] punten op scherm zetten
 - [ ] thuismenu
 - [ ] uitlegscherm
