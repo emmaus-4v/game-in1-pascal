@@ -10,13 +10,12 @@ Basis: uitleg, spelen en punten
 - [x] maak index.html, style.css en script.js met canvas
 - [x] teken bal
 - [x] lijn
-- [ ] click and drag
-- [ ] beweeg bal
-- [ ] bal in gat
-- [ ] obstakels toevoegen
-- [ ] punten op scherm zetten
+- [x] click and drag
+- [x] beweeg bal
+- [x] bal in gat
 - [ ] thuismenu
 - [ ] uitlegscherm
+- [ ] obstakels toevoegen
 - [ ] levels maken
 
 Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
