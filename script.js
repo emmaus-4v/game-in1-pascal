@@ -11,7 +11,7 @@ const START = 4;
 var spelStatus = START;
 
 var spelerX = 0; 
-var spelerY = 0; 
+var spelerY = 0;
 var spelerInHole = 0;
 
 var holeX = 0;
@@ -29,8 +29,11 @@ var speedX = 0;
 var speedY = 0;
 var friction = 0.95;
 
+
 var shotCount = 0;
 var par = 0;
+
+var obstakel = Array(4);
 
 var ScoreText = "ScoreText";
 var playColor = "ffffff";
@@ -77,6 +80,7 @@ var beweegSpeler = function() {
     speedY = speedY * friction;
 
     //Stuiteren
+    //Muren
     if(spelerX >= 1255) {
         if(speedX > 0) {
             speedX = speedX * -1;
@@ -93,6 +97,23 @@ var beweegSpeler = function() {
     } else if(spelerY <= 25) {
         if(speedY < 0) {
             speedY = speedY * -1;
+        }
+    }
+    //Obstakels
+    //Loopt voor hoeveel obstakels er zijn
+    for(var i = 0; i < obstakel.length / 4; i++){
+        var obNum = i*4;
+        //Horizontale
+        if(obstakel[3  + obNum] === 1) {
+            if(spelerX >= obstakel[0  + obNum] && spelerX <= obstakel[0  + obNum] + obstakel[2  + obNum] && spelerY >= obstakel[1  + obNum] - 20 && spelerY <= obstakel[1  + obNum] + 40) {
+                speedY = speedY * -1;
+            }
+        } 
+        //Verticale
+        else if(obstakel[3 + obNum] === 2) {
+            if(spelerX >= obstakel[0  + obNum] - 20 && spelerX <= obstakel[0  + obNum] + 40 && spelerY >= obstakel[1  + obNum] && spelerY <= obstakel[1  + obNum] + obstakel[2  + obNum]) {
+                speedX = speedX * -1;
+            }
         }
     }
     
@@ -199,6 +220,19 @@ var berekenDiff = function() {
     DiffHoleY = spelerY - holeY;
 }
 
+var tekenObstakel = function() {
+    noStroke();
+    fill("black");
+    for(var i = 0; i < obstakel.length / 4; i++){
+        var obNum = i*4
+        if(obstakel[3  + obNum] === 1) {
+            rect(obstakel[0 + obNum], obstakel[1 + obNum], obstakel[2 + obNum], 20, 0, 0);
+        } else if(obstakel[3 + obNum] === 2) {
+            rect(obstakel[0 + obNum], obstakel[1 + obNum], 20, obstakel[2 + obNum], 0, 0);
+        }
+    }
+}
+
 var geclickt = 0;
 var BerekenInputsGescoord = function() {
     fill("white");
@@ -235,12 +269,12 @@ var BerekenInputsGescoord = function() {
 var NextLevel = function() {
     shotCount = 0;
     currentLevel++;
+    obstakel = [];
     loadNewLevel(currentLevel); 
     return;
 }
 
 var bglol
-
 var loadNewLevel = function(level) {
     switch(level) {
         case 1: 
@@ -249,33 +283,47 @@ var loadNewLevel = function(level) {
             spelerY = 300;
             holeX = 400;
             holeY = 400;
+            obstakel = [0, 0, 0, 0];
+            bglol = "green";
+            break;
+
+        case 2: 
+            par = 3;
+            spelerX = 1200;
+            spelerY = 300;
+            holeX = 400;
+            holeY = 400;
+            obstakel = [640, 240, 240, 2];
             bglol = "green";
             break;
         
-        case 2:
+        case 3:
             par = 2;
             spelerX = 1200;
             spelerY = 100;
             holeX = 1200;
             holeY = 620;
+            obstakel = [426, 360, 900, 1];
             bglol = "yellow";
             break;
 
-        case 3:
+        case 4:
             par = 4;
             spelerX = 128;
             spelerY = 72;
             holeX = 1200;
             holeY = 360;
+            obstakel = [640, 0, 480, 2];
             bglol = "blue";
             break;
 
-        case 4:
+        case 5:
             par = 2;
             spelerX = 120;
             spelerY = 100;
             holeX = 120;
             holeY = 620;
+            obstakel = [0, 360, 426, 1, 832, 360, 426, 1];
             bglol = "red";
             break;
 
@@ -348,9 +396,11 @@ function draw() {
     beweegSpeler();
     tekenHole(holeX, holeY);
     tekenSpeler(spelerX, spelerY);
+    tekenObstakel();
 
     
     if(LijnTekenen === 1) {
+        stroke("white");
         strokeWeight(25);
         tekenLijn(spelerX, spelerY, puntX, puntY);
         strokeWeight(1);

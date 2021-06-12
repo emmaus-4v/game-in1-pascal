@@ -13,9 +13,9 @@ Basis: uitleg, spelen en punten
 - [x] click and drag
 - [x] beweeg bal
 - [x] bal in gat
-- [ ] thuismenu
-- [ ] uitlegscherm
-- [ ] obstakels toevoegen
+- [x] thuismenu
+- [x] uitlegscherm
+- [x] obstakels toevoegen
 - [ ] levels maken
 
 Uitbreiding: *bedenk iets, bijvoorbeeld meer tegenstanders*
