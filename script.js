@@ -113,7 +113,9 @@ var CheckMuisInputStart = function() {
     if(mouseX < 400 && mouseX > 240 && mouseY < 420 && mouseY > 300 ) {
         playColor = "000000";
         if(mouseIsPressed) {
-            loadCurrentLevel(1);
+            currentLevel = 1;
+            loadNewLevel(currentLevel);
+            spelStatus = SPELEN;
             return;
         }
     }
@@ -197,6 +199,7 @@ var berekenDiff = function() {
     DiffHoleY = spelerY - holeY;
 }
 
+var geclickt = 0;
 var BerekenInputsGescoord = function() {
     fill("white");
     textSize(80);
@@ -213,8 +216,15 @@ var BerekenInputsGescoord = function() {
 
     if(mouseX < 850 && mouseX > 425 && mouseY < 435 && mouseY > 360 ) {
         playColor = "000000";
-        if(mouseIsPressed) {
-            NextLevel();
+        if(mouseIsPressed && geclickt == 0) {
+            geclickt = 1;
+            setTimeout(() => {
+                NextLevel();
+                setTimeout(() => {
+                    spelStatus = SPELEN;
+                    geclickt = 0;
+                }, 1000);
+            }, 1000);
         }
     }
     else {
@@ -223,54 +233,53 @@ var BerekenInputsGescoord = function() {
 }
 
 var NextLevel = function() {
-    spelerX = 0; 
-    spelerY = 0; 
-    spelerInHole = 0;
-    holeX = 0;
-    holeY = 0;
     shotCount = 0;
-    currentLevel = currentLevel + 1;
-    setTimeout(() => {
-       loadCurrentLevel(currentLevel); 
-    }, 500);
+    currentLevel++;
+    loadNewLevel(currentLevel); 
+    return;
 }
 
+var bglol
 
-var loadCurrentLevel = function(i) {
-        if(i = 1) {
+var loadNewLevel = function(level) {
+    switch(level) {
+        case 1: 
             par = 3;
             spelerX = 1200;
             spelerY = 300;
             holeX = 400;
             holeY = 400;
-            setTimeout(() => {
-                spelStatus = SPELEN;
-                
-            }, 500);
-            return;
-        }
-        else if(i = 2) {
+            bglol = "green";
+            break;
+        
+        case 2:
             par = 2;
             spelerX = 1200;
             spelerY = 100;
             holeX = 1200;
             holeY = 620;
-            setTimeout(() => {
-                spelStatus = SPELEN;
-            }, 500);
-            return;
-        }
-        else if(i = 3) {
+            bglol = "yellow";
+            break;
+
+        case 3:
             par = 4;
             spelerX = 128;
             spelerY = 72;
             holeX = 1200;
             holeY = 360;
-            setTimeout(() => {
-                spelStatus = SPELEN;
-            }, 500);
-            return;
-        }
+            bglol = "blue";
+            break;
+
+        case 4:
+            par = 2;
+            spelerX = 120;
+            spelerY = 100;
+            holeX = 120;
+            holeY = 620;
+            bglol = "red";
+            break;
+
+    }
 }
 
 //Deze functie is wack, maar er was geen betere optie lol
@@ -327,7 +336,7 @@ function draw() {
 
     case SPELEN:
     clear();
-    background("green");
+    background(bglol);
 
     berekenLijnX();
     berekenLijnY();
