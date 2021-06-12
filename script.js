@@ -10,12 +10,12 @@ const GESCOORD = 3;
 const START = 4;
 var spelStatus = START;
 
-var spelerX = 300; 
-var spelerY = 300; 
+var spelerX = 0; 
+var spelerY = 0; 
 var spelerInHole = 0;
 
-var holeX = 600;
-var holeY = 400;
+var holeX = 0;
+var holeY = 0;
 var DiffHoleX = 0;
 var DiffHoleY = 0;
 
@@ -29,12 +29,13 @@ var speedX = 0;
 var speedY = 0;
 var friction = 0.95;
 
-var score = 0; 
 var shotCount = 0;
-var par = 3;
+var par = 0;
 
 var ScoreText = "ScoreText";
 var playColor = "ffffff";
+
+var currentLevel = 1; 
 
 
 //Functies
@@ -44,10 +45,6 @@ var tekenSpeler = function(x, y) {
     stroke(255, 255, 255);
     ellipse(x, y, 50, 50);
 };
-
-var tekenSpelerInHole = function(x, y) {
-    ellipse(x, y, 25, 25);
-}
 
 var tekenHole = function(x, y) {
   fill("black");
@@ -99,22 +96,25 @@ var beweegSpeler = function() {
         }
     }
     
-    //scoren ofzo
-    if(speedX < 50 && speedY < 50) {
-        if((DiffHoleX < 25 && DiffHoleX > -25) && (DiffHoleY < 25 && DiffHoleY > -25)) {
-            spelStatus = GESCOORD;
-            spelerInHole = 1;
-            console.log(spelStatus);
+    //Scoren ofzo
+    setTimeout(() => {
+        if(speedX < 50 && speedY < 50) {
+            if((DiffHoleX < 25 && DiffHoleX > -25) && (DiffHoleY < 25 && DiffHoleY > -25)) {
+                spelStatus = GESCOORD;
+                console.log(spelStatus);
+                speedX = 0;
+                speedY = 0;
+            }
         }
-    }
-
+    }, 2000)
 }
 
 var CheckMuisInputStart = function() {
     if(mouseX < 400 && mouseX > 240 && mouseY < 420 && mouseY > 300 ) {
         playColor = "000000";
         if(mouseIsPressed) {
-            spelStatus = SPELEN;
+            loadCurrentLevel(1);
+            return;
         }
     }
     else {
@@ -129,7 +129,9 @@ var TekenGescoordMenu = function() {
     fill("white");
     textSize(100);
     textFont("Impact");
+    //@ts-ignore
     textAlign(CENTER);
+    //@ts-ignore
     text(ScoreText, 640, 250);
 }
 
@@ -138,17 +140,23 @@ var TekenStartMenu = function() {
     fill("white");
     textSize(100);
     textFont("Impact");
+    //@ts-ignore
     textAlign(CENTER);
     stroke("black")
     strokeWeight(1);
     //Text
+    //@ts-ignore
     text("Minigolf", 640, 150);
     textSize(25);
+    //@ts-ignore
     text("How to play",940 , 275);
     textSize(18);
+    //@ts-ignore
     text("Click and drag the ball to launch it", 940, 325);
     textSize(80);
+    //@ts-ignore
     fill(playColor - "");
+    //@ts-ignore
     text("Play", 320, 400)
     fill("white");
     
@@ -182,23 +190,90 @@ var berekenLijnY = function() {
     }
 }
 
-var berekenDiffX = function() {
-        diffX = spelerX - mouseX;
-}
-var berekenDiffY = function() {
-        diffY = spelerY - mouseY;
-}
-
-var berekenDiffHoleX = function() {
+var berekenDiff = function() {
+    diffX = spelerX - mouseX;
+    diffY = spelerY - mouseY;
     DiffHoleX = spelerX - holeX;
-}
-var berekenDiffHoleY = function() {
     DiffHoleY = spelerY - holeY;
 }
 
-var BerekenInputs
+var BerekenInputsGescoord = function() {
+    fill("white");
+    textSize(80);
+    textFont("Impact");
+    //@ts-ignore
+    textAlign(CENTER);
+    stroke("black")
+    strokeWeight(1);
+    //@ts-ignore
+    fill(playColor - "");
+    //@ts-ignore 
+    text("Next level",640 ,432)
+    fill("white");
 
-//Deze functie is wack, maar er was geen betere optie
+    if(mouseX < 850 && mouseX > 425 && mouseY < 435 && mouseY > 360 ) {
+        playColor = "000000";
+        if(mouseIsPressed) {
+            NextLevel();
+        }
+    }
+    else {
+        playColor = "ffffff";
+    }
+}
+
+var NextLevel = function() {
+    spelerX = 0; 
+    spelerY = 0; 
+    spelerInHole = 0;
+    holeX = 0;
+    holeY = 0;
+    shotCount = 0;
+    currentLevel = currentLevel + 1;
+    setTimeout(() => {
+       loadCurrentLevel(currentLevel); 
+    }, 500);
+}
+
+
+var loadCurrentLevel = function(i) {
+        if(i = 1) {
+            par = 3;
+            spelerX = 1200;
+            spelerY = 300;
+            holeX = 400;
+            holeY = 400;
+            setTimeout(() => {
+                spelStatus = SPELEN;
+                
+            }, 500);
+            return;
+        }
+        else if(i = 2) {
+            par = 2;
+            spelerX = 1200;
+            spelerY = 100;
+            holeX = 1200;
+            holeY = 620;
+            setTimeout(() => {
+                spelStatus = SPELEN;
+            }, 500);
+            return;
+        }
+        else if(i = 3) {
+            par = 4;
+            spelerX = 128;
+            spelerY = 72;
+            holeX = 1200;
+            holeY = 360;
+            setTimeout(() => {
+                spelStatus = SPELEN;
+            }, 500);
+            return;
+        }
+}
+
+//Deze functie is wack, maar er was geen betere optie lol
 var berekenScoreText = function() {
     if(shotCount === 1) {
         ScoreText = "Hole in one!";
@@ -251,42 +326,37 @@ function draw() {
     break;
 
     case SPELEN:
+    clear();
+    background("green");
 
     berekenLijnX();
     berekenLijnY();
-    berekenDiffX();
-    berekenDiffY();
-    berekenDiffHoleX();
-    berekenDiffHoleY();
+    berekenDiff();
     berekenScoreText();
 
     muisInputLijn();
-    background("green")
 
     beweegSpeler();
     tekenHole(holeX, holeY);
-    if(spelerInHole === 0) {
-        tekenSpeler(spelerX, spelerY);
-    }
-    else {
-        tekenSpelerInHole(holeX, holeY);
-    }
+    tekenSpeler(spelerX, spelerY);
+
+    
     if(LijnTekenen === 1) {
         strokeWeight(25);
         tekenLijn(spelerX, spelerY, puntX, puntY);
         strokeWeight(1);
     }
     
-    //Debug lol
+    /*Debug lol
     fill("white");
-    text(shotCount + " " + ScoreText, 10, 10, 100, 100)
-
+    text(("" + shotCount) + ScoreText, 10, 10, 100, 100)
+    */
+   
     break;
     case GESCOORD:
         TekenGescoordMenu();
-        BerekenInputs();
+        BerekenInputsGescoord();
 
     break;
-    
   }
 }
